@@ -1,12 +1,42 @@
 import { Gauge, Zap, Thermometer, Wind, Activity } from "lucide-react";
 import { Progress } from "./ui/progress";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { useEffect, useState } from "react";
 
 export const GpuTab = () => {
-  const gpuUsage = 68;
+  const [gpuUsage, setGpuUsage] = useState(0);
+  const [temp, setTemp] = useState(0);
+  
   const vramUsage = 85;
-  const temp = 72;
   const fanSpeed = 65;
+
+  useEffect(() => {
+    const fetchGpuData = async () => {
+      try {
+        if (window.electron?.gpu) {
+          const info = await window.electron.gpu.getInfo();
+          
+          if (info.usageSuccess) {
+            setGpuUsage(Math.round(info.usage));
+          }
+          
+          if (info.temperatureSuccess) {
+            setTemp(Math.round(info.temperature));
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch GPU data:', err);
+      }
+    };
+
+    // Initial fetch
+    fetchGpuData();
+
+    // Update every 2 seconds
+    const interval = setInterval(fetchGpuData, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="space-y-6">
