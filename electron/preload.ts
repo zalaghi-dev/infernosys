@@ -22,6 +22,20 @@ export interface GpuInfo {
   temperatureError: string;
 }
 
+// Network Info Types
+export interface NetworkInfo {
+  success: boolean;
+  error?: string;
+  adapterName: string;
+  ipv4Address: string;
+  ipv6Address: string;
+  subnetMask: string;
+  macAddress: string;
+  downloadSpeed: number;
+  uploadSpeed: number;
+  linkSpeed: string;
+}
+
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
 contextBridge.exposeInMainWorld('electron', {
@@ -30,6 +44,11 @@ contextBridge.exposeInMainWorld('electron', {
     getUsage: (): Promise<GpuUsageInfo> => ipcRenderer.invoke('gpu:getUsage'),
     getTemperature: (): Promise<GpuTempInfo> => ipcRenderer.invoke('gpu:getTemperature'),
     getInfo: (): Promise<GpuInfo> => ipcRenderer.invoke('gpu:getInfo'),
+  },
+  
+  // Network APIs
+  network: {
+    getInfo: (): Promise<NetworkInfo> => ipcRenderer.invoke('network:getInfo'),
   },
   
   // Example API methods

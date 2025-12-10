@@ -5,6 +5,7 @@ electron.contextBridge.exposeInMainWorld("electron", {
 		getTemperature: () => electron.ipcRenderer.invoke("gpu:getTemperature"),
 		getInfo: () => electron.ipcRenderer.invoke("gpu:getInfo")
 	},
+	network: { getInfo: () => electron.ipcRenderer.invoke("network:getInfo") },
 	send: (channel, data) => {
 		if (["toMain"].includes(channel)) electron.ipcRenderer.send(channel, data);
 	},

@@ -1,11 +1,53 @@
 import { Wifi, Activity, Download, Upload } from "lucide-react";
 import { Progress } from "./ui/progress";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { useEffect, useState } from "react";
 
 export const NetworkTab = () => {
+  const [networkInfo, setNetworkInfo] = useState({
+    adapterName: "Loading...",
+    ipv4Address: "N/A",
+    ipv6Address: "N/A",
+    subnetMask: "N/A",
+    macAddress: "N/A",
+    linkSpeed: "Unknown",
+  });
+
   const downloadSpeed = 125;
   const uploadSpeed = 45;
   const maxSpeed = 250;
+
+  useEffect(() => {
+    const fetchNetworkData = async () => {
+      try {
+        if (window.electron?.network) {
+          const info = await window.electron.network.getInfo();
+          console.log("Network Info:", info);
+          
+          if (info.success) {
+            setNetworkInfo({
+              adapterName: info.adapterName,
+              ipv4Address: info.ipv4Address,
+              ipv6Address: info.ipv6Address,
+              subnetMask: info.subnetMask,
+              macAddress: info.macAddress,
+              linkSpeed: info.linkSpeed,
+            });
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch network data:", err);
+      }
+    };
+
+    // Initial fetch
+    fetchNetworkData();
+
+    // Update every 5 seconds
+    const interval = setInterval(fetchNetworkData, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -16,7 +58,7 @@ export const NetworkTab = () => {
         </div>
         <div>
           <h2 className="text-3xl font-bold">Network</h2>
-          <p className="text-muted-foreground">Ethernet - Intel I225-V</p>
+          <p className="text-muted-foreground">{networkInfo.adapterName}</p>
         </div>
       </div>
 
@@ -86,7 +128,7 @@ export const NetworkTab = () => {
             <CardTitle className="text-xs text-muted-foreground">Adapter Name</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm font-semibold">Intel I225-V</p>
+            <p className="text-sm font-semibold">{networkInfo.adapterName}</p>
           </CardContent>
         </Card>
 
@@ -104,7 +146,7 @@ export const NetworkTab = () => {
             <CardTitle className="text-xs text-muted-foreground">IPv4 Address</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm font-semibold">192.168.1.100</p>
+            <p className="text-sm font-semibold">{networkInfo.ipv4Address}</p>
           </CardContent>
         </Card>
 
@@ -113,7 +155,7 @@ export const NetworkTab = () => {
             <CardTitle className="text-xs text-muted-foreground">Subnet Mask</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm font-semibold">255.255.255.0</p>
+            <p className="text-sm font-semibold">{networkInfo.subnetMask}</p>
           </CardContent>
         </Card>
 
@@ -140,7 +182,7 @@ export const NetworkTab = () => {
             <CardTitle className="text-xs text-muted-foreground">MAC Address</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-xs font-semibold">A1:B2:C3:D4:E5:F6</p>
+            <p className="text-xs font-semibold">{networkInfo.macAddress}</p>
           </CardContent>
         </Card>
 
@@ -163,11 +205,11 @@ export const NetworkTab = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <p className="text-xs text-muted-foreground mb-1">Link-Local Address</p>
-              <p className="font-semibold text-sm">fe80::a1b2:c3d4:e5f6:7890</p>
+              <p className="font-semibold text-sm">{networkInfo.ipv6Address}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground mb-1">Global Address</p>
-              <p className="font-semibold text-sm">2001:0db8:85a3:0000:0000:8a2e:0370:7334</p>
+              <p className="font-semibold text-sm">{networkInfo.ipv6Address}</p>
             </div>
           </div>
         </CardContent>

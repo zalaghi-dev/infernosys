@@ -2,6 +2,7 @@ import { BrowserWindow, app, ipcMain } from "electron";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
+import os from "os";
 var __filename = fileURLToPath(import.meta.url);
 var __dirname = path.dirname(__filename);
 var require = createRequire(import.meta.url);
@@ -63,6 +64,57 @@ ipcMain.handle("gpu:getInfo", async () => {
 			temperature: 0,
 			temperatureSuccess: false,
 			temperatureError: String(error)
+		};
+	}
+});
+ipcMain.handle("network:getInfo", async () => {
+	try {
+		const networkInterfaces = os.networkInterfaces();
+		let activeInterface = null;
+		for (const [name, interfaces] of Object.entries(networkInterfaces)) {
+			if (interfaces) {
+				for (const iface of interfaces) if (!iface.internal && iface.family === "IPv4") {
+					activeInterface = {
+						name,
+						address: iface.address,
+						netmask: iface.netmask,
+						mac: iface.mac
+					};
+					break;
+				}
+			}
+			if (activeInterface) break;
+		}
+		let ipv6Address = "";
+		for (const [name, interfaces] of Object.entries(networkInterfaces)) if (interfaces && name === activeInterface?.name) {
+			for (const iface of interfaces) if (!iface.internal && iface.family === "IPv6") {
+				ipv6Address = iface.address;
+				break;
+			}
+		}
+		return {
+			success: true,
+			adapterName: activeInterface?.name || "Unknown",
+			ipv4Address: activeInterface?.address || "N/A",
+			ipv6Address: ipv6Address || "N/A",
+			subnetMask: activeInterface?.netmask || "N/A",
+			macAddress: activeInterface?.mac || "N/A",
+			downloadSpeed: 0,
+			uploadSpeed: 0,
+			linkSpeed: "Unknown"
+		};
+	} catch (error) {
+		return {
+			success: false,
+			error: String(error),
+			adapterName: "Unknown",
+			ipv4Address: "N/A",
+			ipv6Address: "N/A",
+			subnetMask: "N/A",
+			macAddress: "N/A",
+			downloadSpeed: 0,
+			uploadSpeed: 0,
+			linkSpeed: "Unknown"
 		};
 	}
 });
