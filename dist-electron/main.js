@@ -1,13 +1,14 @@
 import { BrowserWindow, app, ipcMain } from "electron";
 import path from "path";
-var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, { get: (a, b) => (typeof require !== "undefined" ? require : a)[b] }) : x)(function(x) {
-	if (typeof require !== "undefined") return require.apply(this, arguments);
-	throw Error("Calling `require` for \"" + x + "\" in an environment that doesn't expose the `require` function.");
-});
+import { fileURLToPath } from "url";
+import { createRequire } from "module";
+var __filename = fileURLToPath(import.meta.url);
+var __dirname = path.dirname(__filename);
+var require = createRequire(import.meta.url);
 app.disableHardwareAcceleration();
 var gpuAddon = null;
 try {
-	gpuAddon = __require(path.join(__dirname, "../native/gpu/build/Release/gpu.node"));
+	gpuAddon = require(path.join(__dirname, "../native/gpu/build/Release/gpu.node"));
 } catch (error) {
 	console.warn("GPU native addon not available:", error);
 }

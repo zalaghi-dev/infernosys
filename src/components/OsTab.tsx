@@ -1,4 +1,4 @@
-import { Monitor, HardDrive, Wifi, Server, Clock, Cpu } from "lucide-react";
+import { Monitor, HardDrive, Server, Clock, Cpu } from "lucide-react";
 import { Progress } from "./ui/progress";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
@@ -187,48 +187,6 @@ export const OsTab = () => {
               </div>
             </div>
           ))}
-        </CardContent>
-      </Card>
-
-      {/* Network Information */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Wifi className="w-5 h-5 text-primary" />
-            Network Information
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-3">
-              <div>
-                <p className="text-xs text-muted-foreground mb-1">Adapter Name</p>
-                <p className="font-semibold">Ethernet - Intel I225-V</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground mb-1">IPv4 Address</p>
-                <p className="font-semibold">192.168.1.100</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground mb-1">IPv6 Address</p>
-                <p className="font-semibold text-sm">fe80::a1b2:c3d4:e5f6:7890</p>
-              </div>
-            </div>
-            <div className="space-y-3">
-              <div>
-                <p className="text-xs text-muted-foreground mb-1">Connection Type</p>
-                <p className="font-semibold">Wired (2.5 Gbps)</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground mb-1">Download Speed</p>
-                <p className="font-semibold text-primary">125 MB/s</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground mb-1">Upload Speed</p>
-                <p className="font-semibold text-primary">45 MB/s</p>
-              </div>
-            </div>
-          </div>
         </CardContent>
       </Card>
     </div>

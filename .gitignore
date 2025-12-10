@@ -10,7 +10,12 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+dist-electron
 *.local
+
+# Native addon build files
+native/*/build/
+*.node
 
 # Editor directories and files
 .vscode/*

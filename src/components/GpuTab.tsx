@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 export const GpuTab = () => {
   const [gpuUsage, setGpuUsage] = useState(0);
   const [temp, setTemp] = useState(0);
-  
+
   const vramUsage = 85;
   const fanSpeed = 65;
 
@@ -15,17 +15,20 @@ export const GpuTab = () => {
       try {
         if (window.electron?.gpu) {
           const info = await window.electron.gpu.getInfo();
+          console.log("GPU Info:", info);
+          console.log("Usage:", info.usage, "Success:", info.usageSuccess);
+          console.log("Temp:", info.temperature, "Success:", info.temperatureSuccess);
           
           if (info.usageSuccess) {
             setGpuUsage(Math.round(info.usage));
           }
-          
+
           if (info.temperatureSuccess) {
             setTemp(Math.round(info.temperature));
           }
         }
       } catch (err) {
-        console.error('Failed to fetch GPU data:', err);
+        console.error("Failed to fetch GPU data:", err);
       }
     };
 
@@ -115,7 +118,9 @@ export const GpuTab = () => {
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs text-muted-foreground">Driver Version</CardTitle>
+            <CardTitle className="text-xs text-muted-foreground">
+              Driver Version
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-lg font-semibold">546.65</p>
@@ -124,7 +129,9 @@ export const GpuTab = () => {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs text-muted-foreground">Core Clock</CardTitle>
+            <CardTitle className="text-xs text-muted-foreground">
+              Core Clock
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-lg font-semibold">2520 MHz</p>
@@ -133,7 +140,9 @@ export const GpuTab = () => {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs text-muted-foreground">Memory Clock</CardTitle>
+            <CardTitle className="text-xs text-muted-foreground">
+              Memory Clock
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-lg font-semibold">10501 MHz</p>
@@ -142,7 +151,9 @@ export const GpuTab = () => {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs text-muted-foreground">Power Usage</CardTitle>
+            <CardTitle className="text-xs text-muted-foreground">
+              Power Usage
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-lg font-semibold">285 W</p>
@@ -151,7 +162,9 @@ export const GpuTab = () => {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs text-muted-foreground">PCIe Link</CardTitle>
+            <CardTitle className="text-xs text-muted-foreground">
+              PCIe Link
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-lg font-semibold">Gen4 x16</p>
@@ -160,7 +173,9 @@ export const GpuTab = () => {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs text-muted-foreground">HotSpot Temp</CardTitle>
+            <CardTitle className="text-xs text-muted-foreground">
+              HotSpot Temp
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-lg font-semibold">78°C</p>
@@ -169,7 +184,9 @@ export const GpuTab = () => {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs text-muted-foreground">Memory Temp</CardTitle>
+            <CardTitle className="text-xs text-muted-foreground">
+              Memory Temp
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-lg font-semibold">68°C</p>
@@ -178,7 +195,9 @@ export const GpuTab = () => {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs text-muted-foreground">GPU Voltage</CardTitle>
+            <CardTitle className="text-xs text-muted-foreground">
+              GPU Voltage
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-lg font-semibold">1.05 V</p>

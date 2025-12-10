@@ -2,6 +2,8 @@
 #include <cstring>
 
 #ifdef _WIN32
+    #define UNICODE
+    #define _UNICODE
     #include <windows.h>
     #include <pdh.h>
     #include <pdhmsg.h>

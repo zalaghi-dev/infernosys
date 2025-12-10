@@ -1,5 +1,12 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
+import { fileURLToPath } from "url";
+import { createRequire } from "module";
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const require = createRequire(import.meta.url);
 
 // Disable GPU hardware acceleration to avoid GPU-related warnings
 app.disableHardwareAcceleration();
@@ -7,16 +14,19 @@ app.disableHardwareAcceleration();
 // Load native GPU addon
 let gpuAddon: any = null;
 try {
-  const addonPath = path.join(__dirname, '../native/gpu/build/Release/gpu.node');
+  const addonPath = path.join(
+    __dirname,
+    "../native/gpu/build/Release/gpu.node"
+  );
   gpuAddon = require(addonPath);
 } catch (error) {
-  console.warn('GPU native addon not available:', error);
+  console.warn("GPU native addon not available:", error);
 }
 
 // IPC Handlers for GPU info
-ipcMain.handle('gpu:getUsage', async () => {
+ipcMain.handle("gpu:getUsage", async () => {
   if (!gpuAddon) {
-    return { usage: 0, success: false, error: 'GPU addon not loaded' };
+    return { usage: 0, success: false, error: "GPU addon not loaded" };
   }
   try {
     return gpuAddon.getGpuUsage();
@@ -25,9 +35,9 @@ ipcMain.handle('gpu:getUsage', async () => {
   }
 });
 
-ipcMain.handle('gpu:getTemperature', async () => {
+ipcMain.handle("gpu:getTemperature", async () => {
   if (!gpuAddon) {
-    return { temperature: 0, success: false, error: 'GPU addon not loaded' };
+    return { temperature: 0, success: false, error: "GPU addon not loaded" };
   }
   try {
     return gpuAddon.getGpuTemperature();
@@ -36,15 +46,15 @@ ipcMain.handle('gpu:getTemperature', async () => {
   }
 });
 
-ipcMain.handle('gpu:getInfo', async () => {
+ipcMain.handle("gpu:getInfo", async () => {
   if (!gpuAddon) {
     return {
       usage: 0,
       usageSuccess: false,
-      usageError: 'GPU addon not loaded',
+      usageError: "GPU addon not loaded",
       temperature: 0,
       temperatureSuccess: false,
-      temperatureError: 'GPU addon not loaded'
+      temperatureError: "GPU addon not loaded",
     };
   }
   try {
@@ -56,7 +66,7 @@ ipcMain.handle('gpu:getInfo', async () => {
       usageError: String(error),
       temperature: 0,
       temperatureSuccess: false,
-      temperatureError: String(error)
+      temperatureError: String(error),
     };
   }
 });
@@ -65,10 +75,10 @@ app.whenReady().then(() => {
   const win = new BrowserWindow({
     title: "infernosys",
     webPreferences: {
-      preload: path.join(__dirname, 'preload.mjs'),
+      preload: path.join(__dirname, "preload.mjs"),
       contextIsolation: true,
       nodeIntegration: false,
-    }
+    },
   });
 
   // You can use `process.env.VITE_DEV_SERVER_URL` when the vite command is called `serve`

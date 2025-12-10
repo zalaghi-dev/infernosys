@@ -23,9 +23,6 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.1.17
         version: 4.1.17(rolldown-vite@7.2.5(@types/node@24.10.2)(jiti@2.6.1))
-      binding:
-        specifier: ^3.0.3
-        version: 3.0.3
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -889,9 +886,6 @@ packages:
   baseline-browser-mapping@2.9.5:
     resolution: {integrity: sha512-D5vIoztZOq1XM54LUdttJVc96ggEsIfju2JBvht06pSzpckp3C7HReun67Bghzrtdsq9XdMGbSSB3v3GhMNmAA==}
     hasBin: true
-
-  binding@3.0.3:
-    resolution: {integrity: sha512-HUCRFQLX8GdByCZpPFxEFeFreFe+GJdi75xgJ2R2bsfkYVWdlsPqCApb4RE/RbV6f8ri/uwC2DJZUX8V/PNNxQ==}
 
   boolean@3.2.0:
     resolution: {integrity: sha512-d0II/GO9uf9lfUHH2BQsjxzRJZBdsjgsBiW4BvhWk/3qoKwQFjIDVN19PfX8F2D/r9PCMTtLWjYVCFrpeYUzsw==}
@@ -2678,8 +2672,6 @@ snapshots:
   balanced-match@1.0.2: {}
 
   baseline-browser-mapping@2.9.5: {}
-
-  binding@3.0.3: {}
 
   boolean@3.2.0:
     optional: true

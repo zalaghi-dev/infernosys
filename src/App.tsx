@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { Cpu, Gauge, HardDrive, Monitor, Moon, Sun } from "lucide-react";
+import { Cpu, Gauge, HardDrive, Monitor, Moon, Sun, Wifi } from "lucide-react";
 import { GpuTab } from "./components/GpuTab";
 import { CpuTab } from "./components/CpuTab";
 import { RamTab } from "./components/RamTab";
 import { OsTab } from "./components/OsTab";
+import { NetworkTab } from "./components/NetworkTab";
 
 const App = () => {
   const [selectedTab, setSelectedTab] = useState("gpu");
@@ -24,6 +25,7 @@ const App = () => {
     { id: "gpu", label: "GPU", icon: Gauge },
     { id: "cpu", label: "CPU", icon: Cpu },
     { id: "ram", label: "RAM", icon: HardDrive },
+    { id: "network", label: "NET", icon: Wifi },
     { id: "os", label: "OS", icon: Monitor },
   ];
 
@@ -35,6 +37,8 @@ const App = () => {
         return <CpuTab />;
       case "ram":
         return <RamTab />;
+      case "network":
+        return <NetworkTab />;
       case "os":
         return <OsTab />;
       default:
